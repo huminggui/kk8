@@ -1,33 +1,58 @@
 <template>
 
   <div id="app">
-    <button @click="goHome">父组件按钮</button>
-      <hr>
-    <child1 name="老胡" age="31"></child1>
-    <hr>
-    <child2></child2>
+
+
+    <h1>测试</h1>
+    {{showCourse}}
+
+    <button @click="change">change</button>
   </div>
 </template>
 
 <script>
-import child1 from "./components/Child1"
-import child2 from "./components/Child2"
-
 
 export default {
   name: 'App',
+  //父组件中提供变量，孩子组件最深的也可以获取。
+  provide(){
+    return{
+      foot:"foooooot",
+
+    }
+  },
+  data(){
+    return {
+      value:"default",
+      course:[{name:"张三"},{name:"李四"},{name:"王五"}],
+      showCourse:""
+      
+    }
+  },
+  watch:{
+    course:{
+      immediate:true,
+      deep:true,
+      handler(newValue){
+        console.log("1111111");
+        this.showCourse=newValue.length+"门课";
+      }
+    }
+  },
   components: {
-    child1,
-    child2
+
   },
   methods:{
-    goHome(){
-      //回家吃饭的方法
-     this.$children[0].eat();
-      //第二个孩子是不吃饭
-      this.$children[1].noEat();
+    change(){
+      this.course[0].name="赵六";
     }
+    
+
+
   }
+
+
+
 }
 </script>
 
